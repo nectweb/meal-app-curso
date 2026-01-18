@@ -8,6 +8,7 @@ class CategoriesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 241, 220, 234),
       appBar: AppBar(title: Text("Vamos Conzinhar?")),
       body: Padding(
         padding: const EdgeInsets.all(10),

@@ -26,6 +26,7 @@ class MyApp extends StatelessWidget {
           secondary: Colors.redAccent,
           seedColor: Colors.amber,
         ),
+
         fontFamily: 'Raleway',
       ),
       routes: routesCustom,
