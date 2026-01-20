@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
           seedColor: Colors.amber,
         ),
 
-        fontFamily: 'Raleway',
+        fontFamily: 'RobotoCondensed',
       ),
       routes: routesCustom,
     );
