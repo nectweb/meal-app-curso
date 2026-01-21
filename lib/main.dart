@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: false,
         appBarTheme: AppBarTheme(
-          backgroundColor: Colors.redAccent,
+          backgroundColor: Colors.red,
           foregroundColor: Colors.amber,
           titleTextStyle: TextStyle(
             fontFamily: 'RobotoCondensed',
@@ -22,8 +22,8 @@ class MyApp extends StatelessWidget {
           ),
         ),
         colorScheme: ColorScheme.fromSeed(
-          primary: Colors.redAccent,
-          secondary: Colors.redAccent,
+          primary: Colors.red,
+          secondary: Colors.red,
           seedColor: Colors.amber,
         ),
 
