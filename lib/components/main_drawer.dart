@@ -3,15 +3,25 @@ import 'package:flutter/material.dart';
 class MainDrawer extends StatelessWidget {
   const MainDrawer({super.key});
 
-  Widget _createWidgetIcon(IconData icon, String label) {
-    return ListTile(
-      horizontalTitleGap: 0,
-      leading: Icon(icon, size: 23),
-      title: Text(
-        label,
-        style: TextStyle(fontSize: 21, fontWeight: FontWeight.bold),
-      ),
-      onTap: () {},
+  Widget _createWidgetIcon(IconData icon, String label, String routeName) {
+    return Builder(
+      builder: (BuildContext newContext) {
+        return ListTile(
+          horizontalTitleGap: 0,
+          leading: Icon(icon, size: 23),
+          title: Text(
+            label,
+            style: TextStyle(fontSize: 21, fontWeight: FontWeight.bold),
+          ),
+          onTap: () {
+            Future.delayed(Duration(milliseconds: 100), () {
+              if (newContext.mounted) {
+                Navigator.of(newContext).pushReplacementNamed(routeName);
+              }
+            });
+          },
+        );
+      },
     );
   }
 
@@ -36,8 +46,16 @@ class MainDrawer extends StatelessWidget {
             ),
           ),
           SizedBox(height: 10),
-          _createWidgetIcon(Icons.restaurant_menu, "Restaurantes"),
-          _createWidgetIcon(Icons.settings, "Configurações"),
+          _createWidgetIcon(
+            Icons.restaurant_menu,
+            "Refeições",
+            '/',
+          ),
+          _createWidgetIcon(
+            Icons.settings,
+            "Configurações",
+            '/settings',
+          ),
         ],
       ),
     );
