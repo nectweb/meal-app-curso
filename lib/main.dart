@@ -1,10 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:meal/config/routes.dart';
+import 'package:meal/data/dummy_data.dart';
+import 'package:meal/models/meal.dart';
+import 'package:meal/screens/categories_meals_screen.dart';
+import 'package:meal/screens/meal_detail_screen.dart';
+import 'package:meal/screens/settings_screen.dart';
+import 'package:meal/screens/tabs_screen.dart';
 
 void main() => runApp(MyApp());
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  final List<Meal> _avalaibleMeals = dummyMeals;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +41,13 @@ class MyApp extends StatelessWidget {
 
         fontFamily: 'RobotoCondensed',
       ),
-      routes: routesCustom,
+      routes: {
+        '/': (ctx) => TabsScreen(),
+        '/categories-meals': (ctx) =>
+            CategoriesMealsScreen(meals: _avalaibleMeals),
+        '/meals-details': (ctx) => MealDetailScreen(),
+        '/settings': (ctx) => SettingsScreen(),
+      },
     );
   }
 }
