@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:meal/data/dummy_data.dart';
 import 'package:meal/models/meal.dart';
+import 'package:meal/models/settings.dart';
 import 'package:meal/screens/categories_meals_screen.dart';
 import 'package:meal/screens/meal_detail_screen.dart';
 import 'package:meal/screens/settings_screen.dart';
@@ -16,7 +17,39 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final List<Meal> _avalaibleMeals = dummyMeals;
+  Settings settings = Settings();
+  List<Meal> _avalaibleMeals = dummyMeals;
+  final List<Meal> _favoriteMeals = [];
+
+  void _filterSettings(Settings settings) {
+    setState(() {
+      this.settings = settings;
+
+      _avalaibleMeals = dummyMeals.where((meal) {
+        final filterGluten = settings.isGlutenFree && !meal.isGlutenFree;
+        final filterLactose = settings.isLactoseFree && !meal.isLactoseFree;
+        final filterVegan = settings.isVegan && !meal.isVegan;
+        final filterVegetarian = settings.isVegetarian && !meal.isVegetarian;
+
+        return !filterGluten &&
+            !filterLactose &&
+            !filterVegan &&
+            !filterVegetarian;
+      }).toList();
+    });
+  }
+
+  void _toggleFavorite(Meal meal) {
+    setState(() {
+      _favoriteMeals.contains(meal)
+          ? _favoriteMeals.remove(meal)
+          : _favoriteMeals.add(meal);
+    });
+  }
+
+  bool _isFavorite(Meal meal) {
+    return _favoriteMeals.contains(meal);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,11 +75,15 @@ class _MyAppState extends State<MyApp> {
         fontFamily: 'RobotoCondensed',
       ),
       routes: {
-        '/': (ctx) => TabsScreen(),
+        '/': (ctx) => TabsScreen(_favoriteMeals),
         '/categories-meals': (ctx) =>
             CategoriesMealsScreen(meals: _avalaibleMeals),
-        '/meals-details': (ctx) => MealDetailScreen(),
-        '/settings': (ctx) => SettingsScreen(),
+        '/meals-details': (ctx) =>
+            MealDetailScreen(_toggleFavorite, _isFavorite),
+        '/settings': (ctx) => SettingsScreen(
+          onSettingsChaged: _filterSettings,
+          settings: settings,
+        ),
       },
     );
   }

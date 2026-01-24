@@ -3,14 +3,27 @@ import 'package:meal/components/main_drawer.dart';
 import 'package:meal/models/settings.dart';
 
 class SettingsScreen extends StatefulWidget {
-  const SettingsScreen({super.key});
+  final Settings settings;
+  final Function(Settings) onSettingsChaged;
+
+  const SettingsScreen({
+    super.key,
+    required this.onSettingsChaged,
+    required this.settings,
+  });
 
   @override
   State<SettingsScreen> createState() => _SettingsScreenState();
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  Settings _settings = Settings();
+  late Settings settings;
+
+  @override
+  void initState() {
+    super.initState();
+    settings = widget.settings;
+  }
 
   Widget _createSwitch(
     String title,
@@ -22,7 +35,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
       title: Text(title),
       subtitle: Text(subtitle),
       value: value,
-      onChanged: onChanged,
+      onChanged: (value) {
+        onChanged(value);
+        widget.onSettingsChaged(settings);
+      },
     );
   }
 
@@ -46,40 +62,40 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 _createSwitch(
                   "Sem Glutén",
                   "Comida sem glutén",
-                  _settings.isGlutenFree,
+                  settings.isGlutenFree,
                   (value) {
                     setState(() {
-                      _settings.isGlutenFree = value;
+                      settings.isGlutenFree = value;
                     });
                   },
                 ),
                 _createSwitch(
                   "Sem Lactose",
                   "Comida sem lactose",
-                  _settings.isLactoseFree,
+                  settings.isLactoseFree,
                   (value) {
                     setState(() {
-                      _settings.isLactoseFree = value;
+                      settings.isLactoseFree = value;
                     });
                   },
                 ),
                 _createSwitch(
                   "Comida vegana",
                   "Comidas veganas",
-                  _settings.isVegan,
+                  settings.isVegan,
                   (value) {
                     setState(() {
-                      _settings.isVegan = value;
+                      settings.isVegan = value;
                     });
                   },
                 ),
                 _createSwitch(
                   "Comida vegetariana",
                   "Comidas vegetarianas",
-                  _settings.isVegetarian,
+                  settings.isVegetarian,
                   (value) {
                     setState(() {
-                      _settings.isVegetarian = value;
+                      settings.isVegetarian = value;
                     });
                   },
                 ),
